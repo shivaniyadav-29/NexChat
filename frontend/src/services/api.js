@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const API = axios.create({
-  baseURL: 'http://localhost:5000/api'
+  baseURL: 'https://nexchat-nox5.onrender.com/api'
 });
 
 // Automatically add token to every request

@@ -11,7 +11,7 @@ export const SocketProvider = ({ children }) => {
 
   useEffect(() => {
     if (user) {
-      const newSocket = io('http://localhost:5000');
+      const newSocket = io('https://nexchat-nox5.onrender.com');
       setSocket(newSocket);
 
       newSocket.emit('userOnline', user.id);
