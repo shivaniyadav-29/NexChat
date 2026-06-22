@@ -11,14 +11,14 @@ const app = express();
 const server = http.createServer(app);
 const io = socketio(server, {
   cors: {
-    origin: ["http://localhost:5173", "https://nex-chat-opal.vercel.app/"],
+    origin: ["http://localhost:5173", "https://nex-chat-opal.vercel.app"],
     methods: ["GET", "POST"]
   }
 });
 
 // Middleware
 app.use(cors({
-   origin: ["http://localhost:5173", "https://nex-chat-opal.vercel.app/"]
+   origin: ["http://localhost:5173", "https://nex-chat-opal.vercel.app"]
 }));
 app.use(express.json());
 
