@@ -15,11 +15,17 @@ const Sidebar = ({ activeRoom, setActiveRoom, activeDM, setActiveDM }) => {
   const { onlineUsers, socket } = useSocket()
 
   useEffect(() => {
-    fetchRooms()
-    fetchUsers()
-    socket?.on('groupDeleted', () => fetchRooms())
-    return () => socket?.off('groupDeleted')
-  }, [socket])
+  fetchRooms()
+  fetchUsers()
+
+  socket?.on('groupDeleted', () => fetchRooms())
+  socket?.on('newGroup', () => fetchRooms())
+
+  return () => {
+    socket?.off('groupDeleted')
+    socket?.off('newGroup')
+  }
+}, [socket])
 
   const fetchRooms = async () => {
     try {
@@ -42,19 +48,20 @@ const Sidebar = ({ activeRoom, setActiveRoom, activeDM, setActiveDM }) => {
   }
 
   const handleCreateRoom = async (e) => {
-    e.preventDefault()
-    if (!roomName.trim()) return
-    try {
-      await createRoom({ name: roomName, memberIds: selectedMembers })
-      toast.success('Group created')
-      setRoomName('')
-      setSelectedMembers([])
-      setShowCreateRoom(false)
-      fetchRooms()
-    } catch (error) {
-      toast.error('Failed to create group')
-    }
+  e.preventDefault()
+  if (!roomName.trim()) return
+  try {
+    const { data } = await createRoom({ name: roomName, memberIds: selectedMembers })
+    toast.success('Group created')
+    setRoomName('')
+    setSelectedMembers([])
+    setShowCreateRoom(false)
+    fetchRooms()
+    socket?.emit('newGroup', data)
+  } catch (error) {
+    toast.error('Failed to create group')
   }
+}
 
   const filteredRooms = rooms.filter(r => r.name.toLowerCase().includes(search.toLowerCase()))
   const filteredUsers = users.filter(u => u.username.toLowerCase().includes(search.toLowerCase()))

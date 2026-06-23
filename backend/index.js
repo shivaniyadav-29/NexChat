@@ -49,6 +49,10 @@ const onlineUsers = new Map();
 io.on('connection', (socket) => {
   console.log('User connected:', socket.id);
 
+  socket.on('newGroup', (room) => {
+  io.emit('newGroup', room);
+});
+
   // User joins with their userId
   socket.on('userOnline', (userId) => {
     onlineUsers.set(userId, socket.id);

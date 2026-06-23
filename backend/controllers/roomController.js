@@ -28,7 +28,7 @@ const createRoom = async (req, res) => {
 // GET ALL ROOMS
 const getRooms = async (req, res) => {
   try {
-    const rooms = await Room.find()
+    const rooms = await Room.find({ members: req.user._id })
       .populate('admin', 'username avatar')
       .populate('members', 'username avatar');
 
