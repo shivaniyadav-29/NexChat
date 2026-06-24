@@ -53,6 +53,10 @@ io.on('connection', (socket) => {
   io.emit('newGroup', room);
 });
 
+socket.on('groupDeleted', (roomId) => {
+  io.emit('groupDeleted', roomId);
+});
+
   // User joins with their userId
   socket.on('userOnline', (userId) => {
     onlineUsers.set(userId, socket.id);

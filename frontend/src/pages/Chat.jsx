@@ -56,7 +56,7 @@ const Chat = () => {
       }
     })
 
-    socket.on('roomDeleted', (roomId) => {
+    socket.on('groupDeleted', (roomId) => {
       if (activeRoom?._id === roomId) {
         setActiveRoom(null)
         setMessages([])
@@ -67,7 +67,7 @@ const Chat = () => {
     return () => {
       socket.off('receiveMessage')
       socket.off('receivePrivateMessage')
-      socket.off('roomDeleted')
+      socket.off('groupDeleted')
     }
   }, [socket, activeRoom, activeDM])
 
